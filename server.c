@@ -52,8 +52,14 @@ char *list(char *dir)
         if (entry->d_type == DT_LNK)
         {
             char temp[256];
-            sprintf(temp, "~%s", name);
-            strcpy(name, temp);
+            int len = readlink(name, temp, sizeof(temp) - 1);
+            if (len == -1)
+            {
+                printf("Error readlink");
+                continue;
+            }
+            strcat(name, " ~> ");
+            strcat(name, temp);
         }
         strcat(name, "\n");
         names = (char *)realloc(names, 256 * ++name_count);

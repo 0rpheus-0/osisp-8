@@ -20,7 +20,7 @@ int main()
 
     struct sockaddr_in adr = {
         .sin_family = AF_INET,
-        .sin_addr.s_addr = inet_addr("127.0.0.1"),
+        .sin_addr.s_addr = inet_addr("127.0.0.1"), // 172.17.0.2
         .sin_port = htons(8080)};
     if (connect(client, (struct sockaddr *)&adr, sizeof(adr)) == -1)
     {
@@ -110,7 +110,7 @@ int main()
             printf("%s", buffer);
         if (!strcmp(buffer, "QUIT"))
             break;
-    }
+        }
     close(client);
     free(dir);
     return 0;

@@ -1,0 +1,4 @@
+FROM ubuntu
+WORKDIR /root/
+COPY ./client /root/
+ENTRYPOINT [ "/root/client" ]
