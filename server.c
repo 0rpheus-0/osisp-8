@@ -95,15 +95,15 @@ void *client_hendler(void *arg)
     int byte_count;
     getcwd(dir, 256);
 
-    send(client, info(), strlen(info()), 0);
+    write(client, info(), strlen(info()));
     sleep(1);
-    send(client, dir, strlen(dir), 0);
-    while ((byte_count = recv(client, buffer, 4096, 0)) > 0)
+    write(client, dir, strlen(dir));
+    while ((byte_count = read(client, buffer, 4096)) > 0)
     {
         buffer[byte_count] = '\0';
         printf("%s\n", buffer);
         if (strstr(buffer, "ECHO"))
-            send(client, echo(buffer), strlen(buffer), 0);
+            write(client, echo(buffer), strlen(buffer));
         else if (strstr(buffer, "QUIT"))
         {
             printf("Client disconnect\n");
@@ -112,19 +112,19 @@ void *client_hendler(void *arg)
             break;
         }
         else if (strstr(buffer, "INFO"))
-            send(client, info(), strlen(info()), 0);
+            write(client, info(), strlen(info()));
         else if (strstr(buffer, "CD"))
         {
             dir = cd(dir, buffer);
             strcpy(buffer, dir);
-            send(client, buffer, strlen(buffer), 0);
+            write(client, buffer, strlen(buffer));
         }
         else if (strstr(buffer, "LIST"))
-            send(client, list(dir), strlen(list(dir)), 0);
+            write(client, list(dir), strlen(list(dir)));
         else
         {
             char response[] = "Unknown request";
-            send(client, response, strlen(response), 0);
+            write(client, response, strlen(response));
         }
     }
     close(client);

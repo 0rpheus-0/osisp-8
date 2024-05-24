@@ -27,12 +27,12 @@ int main()
         printf("Error connect");
         exit(1);
     }
-    if (byte_count = recv(client, buffer, 4096, 0))
+    if (byte_count = read(client, buffer, 4096))
     {
         buffer[byte_count] = '\0';
         printf("%s", buffer);
     }
-    if (byte_count = recv(client, buffer, 4096, 0))
+    if (byte_count = read(client, buffer, 4096))
     {
         buffer[byte_count] = '\0';
         strcpy(dir, buffer);
@@ -66,10 +66,10 @@ int main()
                         i++;
                     buffer[i] = '\0';
                 }
-                send(client, buffer, strlen(buffer), 0);
+                write(client, buffer, strlen(buffer));
                 if (strstr(buffer, "CD"))
                     cd_fl = 1;
-                byte_count = recv(client, buffer, 4096, 0);
+                byte_count = read(client, buffer, 4096);
                 if (byte_count <= 0)
                 {
                     printf("Connection closed by server");
@@ -90,10 +90,10 @@ int main()
             continue;
         }
 
-        send(client, buffer, strlen(buffer), 0);
+        write(client, buffer, strlen(buffer));
         if (strstr(buffer, "CD"))
             cd_fl = 1;
-        byte_count = recv(client, buffer, 4096, 0);
+        byte_count = read(client, buffer, 4096);
         if (byte_count <= 0)
         {
             printf("Connection closed by server");
@@ -110,7 +110,7 @@ int main()
             printf("%s", buffer);
         if (!strcmp(buffer, "QUIT"))
             break;
-        }
+    }
     close(client);
     free(dir);
     return 0;
