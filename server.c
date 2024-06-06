@@ -133,6 +133,7 @@ void *client_hendler(void *arg)
 
 int main()
 {
+    setvbuf(stdout, NULL, _IONBF, 0);
     pthread_t threads[5];
     int server = socket(AF_INET, SOCK_STREAM, 0);
     if (server == -1)

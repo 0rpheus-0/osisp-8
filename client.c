@@ -7,6 +7,7 @@
 
 int main()
 {
+    setvbuf(stdout, NULL, _IONBF, 0);
     char buffer[4096];
     int byte_count;
     char *dir = calloc(256, 1);
@@ -20,19 +21,19 @@ int main()
 
     struct sockaddr_in adr = {
         .sin_family = AF_INET,
-        .sin_addr.s_addr = inet_addr("127.0.0.1"), // 172.17.0.2
+        .sin_addr.s_addr = inet_addr("172.17.0.2"), // 172.17.0.2
         .sin_port = htons(8080)};
     if (connect(client, (struct sockaddr *)&adr, sizeof(adr)) == -1)
     {
         printf("Error connect");
         exit(1);
     }
-    if (byte_count = read(client, buffer, 4096))
+    if ((byte_count = read(client, buffer, 4096)))
     {
         buffer[byte_count] = '\0';
         printf("%s", buffer);
     }
-    if (byte_count = read(client, buffer, 4096))
+    if ((byte_count = read(client, buffer, 4096)))
     {
         buffer[byte_count] = '\0';
         strcpy(dir, buffer);
